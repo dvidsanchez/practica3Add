@@ -89,9 +89,10 @@ public class ObtenerDatos {
         //Leemos FF bytes del archivo
         command = new byte[]{(byte) 0x00, (byte) 0xB0, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
         r = ch.transmit(new CommandAPDU(command));
-
+        System.out.println(r.toString());
         if ((byte) r.getSW() == (byte) 0x9000) {
             byte[] datos = r.getData();
+            
 
             if (datos[4] == 0x30) {
                 offset = 4;
@@ -107,12 +108,17 @@ public class ObtenerDatos {
                 byte[] r3 = new byte[9];
 
                 
-                
+                byte[] r4=new byte[24];
                 
                 //Nos posicionamos en el byte donde empieza el NIF y leemos sus 9 bytes
                 for (int z = 0; z < 9; z++) {
                     r3[z] = datos[109 + z];
                 }
+                for(int s=0;s<24;s++){
+                	r4[s]=datos[163+s];
+                }
+                String wa=new String(r4);
+                System.out.println(wa);
                 completName = new String(r3);
             }
         }

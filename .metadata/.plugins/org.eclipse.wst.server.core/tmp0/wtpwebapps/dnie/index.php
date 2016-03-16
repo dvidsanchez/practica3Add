@@ -11,8 +11,8 @@
     <body>
         <div id='banner'>
             
-            <h2>Pr&aacute;ctica 3. Implementación de un servicio b&aacute;sico de autenticaci&oacute;n con DNIe</h2>
-            <h3>Autenticación con datos públicos del DNIe</h3>
+            <h2>Pr&aacute;ctica 3. Implementaci&oacute;n de un servicio b&aacute;sico de autenticaci&oacute;n con DNIe</h2>
+            <h3>AutenticaciÃ³n con datos pÃºblicos del DNIe</h3>
 
         </div>
         <div id='main'>
@@ -20,19 +20,21 @@
             <h3>Usuarios registrados</h3>
             <ul>
                 <?php
-                $link = mysql_connect('localhost:3306', 'root', '12345') or die('No se puede conectar con el servidor');
+				$link = mysql_connect('localhost:3306','root','123456');
                 if (!$link) {
+					echo '<p>no va</p>';
                     die('Could not connect to MySQL: ' . mysql_error());
                 }
 
-                mysql_select_db('dniauth', $link) or die('No se puede conectar con la base de datos');
+                mysql_select_db("dniauth", $link) or die('No se puede conectar con la base de datos');
 
                 $sql = "SELECT * FROM users";
                 $resultado = mysql_query($sql);
                 while ($row = mysql_fetch_assoc($resultado)) {
 
-                    echo "<li>" . $row["user"] . " " . $row["dni"] . "</li>";
+                    echo '<li>' . $row["user"] . '' . $row["dni"] . '</li>' ;
                 }
+                echo sql_dump_result($resultado);
                 ?>
             </ul>
             </div>
@@ -61,9 +63,9 @@
         </div>
 
         <div id="foot">
-            <h2>Aplicaciones Telemáticas para la Administración</h2>
+            <h2>Aplicaciones TelemÃ¡ticas para la AdministraciÃ³n</h2>
             <p>Grado en Ingenier&iacute;a Telem&aacute;tica y Grado en Ingenier&iacute;a de Tecnolog&iacute;as de Telecomunicaci&oacute;n</p>
-            <p>DEPARTAMENTO DE INGENIERÍA DE TELECOMUNICACIÓN</p>
+            <p>DEPARTAMENTO DE INGENIERÃ�A DE TELECOMUNICACIÃ“N</p>
 
 
         </div>

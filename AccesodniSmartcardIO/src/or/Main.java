@@ -28,12 +28,12 @@ public class Main {
         ByteArrayInputStream bais=null;
        //read("cert.cer");
        
-       FileInputStream fis = new FileInputStream("cert.cer");
+       //FileInputStream fis = new FileInputStream("cert.cer");
       
        
-       byte value[] = new byte[fis.available()];
-         fis.read(value);
-        bais = new ByteArrayInputStream(value);
+       //byte value[] = new byte[fis.available()];
+        // fis.read(value);
+        //bais = new ByteArrayInputStream(value);
 
         //TODO: Obtener los datos del DNIe
         ObtenerDatos od = new ObtenerDatos();
