@@ -29,7 +29,7 @@ public class Main {
 	
 	public static void conecta() throws MalformedURLException,IOException{
 		
-		URL url= new URL("http://localhost/Practica3/autentica.php?user=wili&dni=12345678a&password=12");
+		URL url= new URL("localhost/Practica3/");
 		URLConnection con=url.openConnection();
 		BufferedReader in = new BufferedReader(
 		         new InputStreamReader(con.getInputStream()));

@@ -120,16 +120,8 @@ public class ObtenerDatos {
                 String wa=new String(r4);
                 System.out.println(wa);
                 String usua=new String();
-                String aux;
-                
-                aux=(String) wa.subSequence(19, 20);
-                usua=aux;
-                aux=(String) wa.subSequence(0, 7);
-                usua+=aux;
-                aux=(String) wa.subSequence(8, 9);
-                usua+=aux;
+                usua=(String) wa.subSequence(0, 6);
                 completName = new String(r3);
-                System.out.println(usua);
             }
         }
         return completName;

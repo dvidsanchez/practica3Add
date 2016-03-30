@@ -126,10 +126,10 @@ public class ObtenerDatos {
                 usua=aux;
                 aux=(String) wa.subSequence(0, 7);
                 usua+=aux;
-                aux=(String) wa.subSequence(8, 9);
+                aux=(String) wa.subSequence(9, 10);
                 usua+=aux;
                 completName = new String(r3);
-                System.out.println(usua);
+                System.out.println(aux);
             }
         }
         return completName;
