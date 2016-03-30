@@ -33,8 +33,8 @@ public class ObtenerDatos {
     public ObtenerDatos() {
     }
 
-    public String LeerNIF() {
-        String nif = null;
+    public String[] LeerNIF() {
+        String nif[] = null;
         try {
             Card c = ConexionTarjeta();
             if (c == null) {
@@ -57,9 +57,12 @@ public class ObtenerDatos {
 
   
 
-    public String leerDeCertificado(CardChannel ch) throws CardException {
+    public String[] leerDeCertificado(CardChannel ch) throws CardException {
         int offset = 0;
+        String resp[] = new String[3];
         String completName = null;
+        String usua=new String();
+        String aux;
 
         byte[] command = new byte[]{(byte) 0x00, (byte) 0xa4, (byte) 0x04, (byte) 0x00, (byte) 0x0b, (byte) 0x4D, (byte) 0x61, (byte) 0x73, (byte) 0x74, (byte) 0x65, (byte) 0x72, (byte) 0x2E, (byte) 0x46, (byte) 0x69, (byte) 0x6C, (byte) 0x65};
         ResponseAPDU r = ch.transmit(new CommandAPDU(command));
@@ -89,7 +92,7 @@ public class ObtenerDatos {
         //Leemos FF bytes del archivo
         command = new byte[]{(byte) 0x00, (byte) 0xB0, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
         r = ch.transmit(new CommandAPDU(command));
-        System.out.println(r.toString());
+       // System.out.println(r.toString());
         if ((byte) r.getSW() == (byte) 0x9000) {
             byte[] datos = r.getData();
             
@@ -118,9 +121,8 @@ public class ObtenerDatos {
                 	r4[s]=datos[163+s];
                 }
                 String wa=new String(r4);
-                System.out.println(wa);
-                String usua=new String();
-                String aux;
+                //System.out.println(wa);
+                
                 
                 aux=(String) wa.subSequence(19, 20);
                 usua=aux;
@@ -128,11 +130,16 @@ public class ObtenerDatos {
                 usua+=aux;
                 aux=(String) wa.subSequence(8, 9);
                 usua+=aux;
-                completName = new String(r3);
-                System.out.println(usua);
+                //System.out.println(new String(r3));
+                completName= new String(r3);
+                
             }
         }
-        return completName;
+        
+        resp[0]=completName;
+        resp[1]=usua;
+        //System.out.println(resp[1]);
+        return resp;
     }
 
    

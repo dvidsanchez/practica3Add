@@ -27,16 +27,42 @@ import java.net.*;
  */
 public class Main {
 	
-	public static void conecta() throws MalformedURLException,IOException{
+
+	public static String LeeDato(){
+		String dato;
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br= new BufferedReader(isr);
+		try {
+			do{
+			dato=br.readLine();
+			}while(dato.equals(""));
+			return dato;
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			System.out.println("Error recogiendo dato");
+			return "";
+		}
+	}
+	public static void conecta(String p) throws MalformedURLException,IOException{
 		
-		URL url= new URL("http://localhost/Practica3/autentica.php?user=wili&dni=12345678a&password=12");
+		URL url= new URL("http://localhost/Practica3/autentica.php?"+p);
 		URLConnection con=url.openConnection();
 		BufferedReader in = new BufferedReader(
 		         new InputStreamReader(con.getInputStream()));
 		 
 		      String linea;
 		      while ((linea = in.readLine()) != null) {
-		         System.out.println(linea);
+		    	  if(linea.endsWith("</h4>")){
+		    		  
+		    		  //System.out.println(linea);
+		    		  if(linea.contains("Bienvenido")){
+		    			  System.out.println("Autenticado Correctamente");
+		    		  }else{
+		    			  System.out.println("No se ha autenticado correctamente");
+		    		  }
+		    	  }
+		         //System.out.println(linea);
 		      }
 	}
 
@@ -45,6 +71,8 @@ public class Main {
      */
     public static void main(String[] args) throws Exception{
         ByteArrayInputStream bais=null;
+        String nif[]=new String[3];
+        String co;
        //read("cert.cer");
        
        //FileInputStream fis = new FileInputStream("cert.cer");
@@ -56,10 +84,15 @@ public class Main {
 
         //TODO: Obtener los datos del DNIe
         ObtenerDatos od = new ObtenerDatos();
-        String nif = od.LeerNIF();
-        System.out.println("NIF: "+nif);
+        nif = od.LeerNIF();
+        
+        System.out.println("NIF: "+nif[0]);
+        System.out.println("Nombre de usuario:"+nif[1]);
+        System.out.println("Por favor introduzca su contraseña: ");
+        nif[2]=LeeDato();
+        co="user="+nif[1].toLowerCase()+"&dni="+nif[0].toLowerCase()+"&password="+nif[2];
         //TODO: Autenticarse en el servidor
-        conecta();
+        conecta(co);
     
     }
 
