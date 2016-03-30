@@ -10,6 +10,7 @@ INDEX VERSION 1.127+C:\Users\dimanxe\Documents\GitHub\practica3Add\.metadata\.pl
 3224108224.index
 2164123280.index
 1891716909.index
+896210836.index
 882139543.index
 2862355144.index
 1063230161.index
@@ -35,13 +36,14 @@ INDEX VERSION 1.127+C:\Users\dimanxe\Documents\GitHub\practica3Add\.metadata\.pl
 2684640874.index
 1143674512.index
 2474304018.index
+2069226716.index
 3488917806.index
 1765406557.index
 895637512.index
 893988391.index
-3164457182.index
-4182347586.index
 1258175411.index
+4182347586.index
+3164457182.index
 34509697.index
 551513651.index
 65879293.index

@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="dist/lib/bcprov-jdk16-144.jar"/>
 	<classpathentry kind="lib" path="dist/Acceso.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_79"/>
+	<classpathentry kind="lib" path="C:/Users/dimanxe/Downloads/commons-codec-1.10-src.zip"/>
+	<classpathentry kind="lib" path="C:/Users/dimanxe/Desktop/commons-codec-1.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

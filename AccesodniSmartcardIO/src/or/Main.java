@@ -3,13 +3,21 @@ package or;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.*;
+
+import org.apache.commons.codec.binary.*;
+
+import sun.net.www.http.HttpClient;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
 
 /*
  * To change this template, choose Tools | Templates
@@ -44,18 +52,81 @@ public class Main {
 			return "";
 		}
 	}
-	public static void conecta(String p) throws MalformedURLException,IOException{
+	public static String getHash(String message) throws NoSuchAlgorithmException {
+		 MessageDigest md;
+		 byte[] buffer, digest;
+		 String hash = "";
+		 buffer = message.getBytes();
+	        md = MessageDigest.getInstance("SHA1");
+	        md.update(buffer);
+	        digest = md.digest();
+
+	        for(byte aux : digest) {
+	            int b = aux & 0xff;
+	            if (Integer.toHexString(b).length() == 1) hash += "0";
+	            hash += Integer.toHexString(b);
+	        }
+	     return hash;
+	}
+	
+	
+	public static void conecta(String[] p) throws MalformedURLException,IOException{
+		Base64 base64=new Base64();
+		String cod;
+		String query="";
+		p[0]=p[0].toLowerCase();
+		p[1]=p[1].toLowerCase();
 		
-		URL url= new URL("http://localhost/Practica3/autentica.php?"+p);
-		URLConnection con=url.openConnection();
+		//cod=base64.encodeToString(p.getBytes());
+		System.out.println("Indique como desea conectarse:\r\n1.-Para autenticarse sin codificar los datos.\r\n2.-Para codificar en base64.\r\n3.-Para hacerlo utilizando SHA-1.");
+		int swi=Integer.parseInt(LeeDato());
+		switch(swi){
+			case 1:
+				query="autentica.php?user="+p[1]+"&dni="+p[0]+"&password="+p[2];
+				break;
+				
+			case 2:
+				query="autenticaMAC.php?user="+base64.encodeToString(p[1].getBytes())+"&dni="+base64.encodeToString(p[0].getBytes())+"&password="+base64.encodeToString(p[2].getBytes());
+				break;
+				
+			case 3:
+				
+			try {
+				query="user="+URLEncoder.encode(getHash(p[1]), "UTF-8")+"&dni="+URLEncoder.encode(getHash(p[0]), "UTF-8")+"&password="+URLEncoder.encode(getHash(p[2]), "UTF-8");
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		URLConnection con;
+		if(swi==3){
+			URL url= new URL("http://localhost/Practica3/autenticaMAC2.php");
+			System.out.println(query);
+			
+			con=url.openConnection();
+			con.setDoOutput(true);
+			OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+
+		    writer.write("query");
+		    writer.flush();
+			
+		}else{
+			URL url= new URL("http://localhost/Practica3/"+query);
+			System.out.println(query);
+			
+			con=url.openConnection();
+		}
+		
 		BufferedReader in = new BufferedReader(
 		         new InputStreamReader(con.getInputStream()));
 		 
 		      String linea;
+		      
 		      while ((linea = in.readLine()) != null) {
+		    	  System.out.println(linea);
 		    	  if(linea.endsWith("</h4>")){
 		    		  
-		    		  //System.out.println(linea);
+		    		 
 		    		  if(linea.contains("Bienvenido")){
 		    			  System.out.println("Autenticado Correctamente");
 		    		  }else{
@@ -90,9 +161,9 @@ public class Main {
         System.out.println("Nombre de usuario:"+nif[1]);
         System.out.println("Por favor introduzca su contraseña: ");
         nif[2]=LeeDato();
-        co="user="+nif[1].toLowerCase()+"&dni="+nif[0].toLowerCase()+"&password="+nif[2];
+        
         //TODO: Autenticarse en el servidor
-        conecta(co);
+        conecta(nif);
     
     }
 

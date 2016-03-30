@@ -20,7 +20,8 @@
             <h3>Usuarios registrados</h3>
             <ul>
                 <?php
-				$link = mysql_connect('localhost:3306','root','123456');
+				
+                $link = mysql_connect('localhost:3306','root','123456'); 
                 if (!$link) {
 					echo '<p>no va</p>';
                     die('Could not connect to MySQL: ' . mysql_error());
@@ -34,7 +35,7 @@
 
                     echo '<li>' . $row["user"] . '' . $row["dni"] . '</li>' ;
                 }
-                echo sql_dump_result($resultado);
+                
                 ?>
             </ul>
             </div>

@@ -1,0 +1,121 @@
+package or;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.*;
+
+import org.apache.commons.codec.binary.*;
+
+
+
+
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+
+
+
+
+/**
+ *
+ * @author toni
+ */
+public class Main {
+	
+
+	public static String LeeDato(){
+		String dato;
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br= new BufferedReader(isr);
+		try {
+			do{
+			dato=br.readLine();
+			}while(dato.equals(""));
+			return dato;
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+			System.out.println("Error recogiendo dato");
+			return "";
+		}
+	}
+	public static void conecta(String[] p) throws MalformedURLException,IOException{
+		Base64 base64=new Base64();
+		String cod;
+		String query="";
+		p[0]=p[0].toLowerCase();
+		p[1]=p[1].toLowerCase();
+		
+		//cod=base64.encodeToString(p.getBytes());
+		System.out.println("Indique como desea conectarse:\r\n1.-Para autenticarse sin codificar los datos.\r\n2.-Para codificar en base64.\r\n3.-Para hacerlo utilizando SHA-1.");
+		int swi=Integer.parseInt(LeeDato());
+		switch(swi){
+			case 1:
+				query="autentica.php?user="+p[1]+"&dni="+p[0]+"&password="+p[2];
+				break;
+				
+			case 2:
+				query="autenticaMAC.php?user="+base64.encodeToString(p[1].getBytes())+"&dni="+base64.encodeToString(p[0].getBytes())+"&password="+base64.encodeToString(p[2].getBytes());
+		}
+		
+		
+		URL url= new URL("http://localhost/Practica3/"+query);
+		URLConnection con=url.openConnection();
+		BufferedReader in = new BufferedReader(
+		         new InputStreamReader(con.getInputStream()));
+		 
+		      String linea;
+		      while ((linea = in.readLine()) != null) {
+		    	  if(linea.endsWith("</h4>")){
+		    		  
+		    		  //System.out.println(linea);
+		    		  if(linea.contains("Bienvenido")){
+		    			  System.out.println("Autenticado Correctamente");
+		    		  }else{
+		    			  System.out.println("No se ha autenticado correctamente");
+		    		  }
+		    	  }
+		         //System.out.println(linea);
+		      }
+	}
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws Exception{
+        ByteArrayInputStream bais=null;
+        String nif[]=new String[3];
+        String co;
+       //read("cert.cer");
+       
+       //FileInputStream fis = new FileInputStream("cert.cer");
+      
+       
+       //byte value[] = new byte[fis.available()];
+        // fis.read(value);
+        //bais = new ByteArrayInputStream(value);
+
+        //TODO: Obtener los datos del DNIe
+        ObtenerDatos od = new ObtenerDatos();
+        nif = od.LeerNIF();
+        
+        System.out.println("NIF: "+nif[0]);
+        System.out.println("Nombre de usuario:"+nif[1]);
+        System.out.println("Por favor introduzca su contraseña: ");
+        nif[2]=LeeDato();
+        
+        //TODO: Autenticarse en el servidor
+        conecta(nif);
+    
+    }
+
+}
