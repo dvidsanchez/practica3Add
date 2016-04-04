@@ -75,7 +75,7 @@
 					$aux3=$row["password"];
 					echo sha1($aux);
 					echo $user;
-                    if(sha1($aux)==$user && sha1($aux2)===$dni && sha1($aux3)===$password)// . " " . $row["dni"] . "</li>";
+                    if ($aux==$user && sha1($aux2)===$dni && sha1($aux3)===$password)// . " " . $row["dni"] . "</li>";
                     {
                         
                         $autenticado=true;

@@ -75,7 +75,7 @@
                 $resultado = mysql_query($sql);
                 while ($row = mysql_fetch_assoc($resultado)) {
 
-                    if($row["user"]==$user && $row["dni"]==$dni && $row["password"]==$password)// . " " . $row["dni"] . "</li>";
+                    if($row["user"]==$user && sha1($row["dni"])==$dni && sha1($row["password"])==$password)// . " " . $row["dni"] . "</li>";
                     {
                         
                         $autenticado=true;

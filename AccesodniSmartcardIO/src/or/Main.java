@@ -55,7 +55,9 @@ public class Main {
 	public static String getHash(String message) throws NoSuchAlgorithmException {
 		 MessageDigest md;
 		 byte[] buffer, digest;
-		 String hash = "";
+		 String[] hash = new String[2] ;
+		 hash[0]="";
+		 message.trim();
 		 buffer = message.getBytes();
 	        md = MessageDigest.getInstance("SHA1");
 	        md.update(buffer);
@@ -63,10 +65,16 @@ public class Main {
 
 	        for(byte aux : digest) {
 	            int b = aux & 0xff;
-	            if (Integer.toHexString(b).length() == 1) hash += "0";
-	            hash += Integer.toHexString(b);
+	            if (Integer.toHexString(b).length() == 1) hash[0] += "0";
+	            hash[0] += Integer.toHexString(b);
 	        }
-	     return hash;
+	        System.out.println(hash[0]);
+	        Base64 base64=new Base64();
+	        
+	        hash[0]=base64.encodeToString(hash[0].getBytes());
+	        hash=hash[0].split("==");
+	        System.out.println(hash[0]+"buey");
+	     return hash[0];
 	}
 	
 	
@@ -92,7 +100,7 @@ public class Main {
 			case 3:
 				
 			try {
-				query="user="+URLEncoder.encode(getHash(p[1]), "UTF-8")+"&dni="+URLEncoder.encode(getHash(p[0]), "UTF-8")+"&password="+URLEncoder.encode(getHash(p[2]), "UTF-8");
+				query="user="+URLEncoder.encode(base64.encodeToString(p[1].getBytes()), "UTF-8")+"&dni="+URLEncoder.encode(getHash(p[0]), "UTF-8")+"&password="+URLEncoder.encode(getHash(p[2]), "UTF-8");
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -100,15 +108,11 @@ public class Main {
 		}
 		URLConnection con;
 		if(swi==3){
-			URL url= new URL("http://localhost/Practica3/autenticaMAC2.php");
+			URL url= new URL("http://localhost/Practica3/autenticaMAC.php?"+query);
 			System.out.println(query);
 			
 			con=url.openConnection();
-			con.setDoOutput(true);
-			OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
-
-		    writer.write("query");
-		    writer.flush();
+			
 			
 		}else{
 			URL url= new URL("http://localhost/Practica3/"+query);
